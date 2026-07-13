@@ -1,0 +1,276 @@
+---
+import Base from "../../layouts/Base.astro";
+import { projects } from "../../data/projects";
+import { site, withBase } from "../../config/site";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const path = `/projects/${project.slug}/`;
+const title = `${project.title} — ${site.name}`;
+
+const projectLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: project.title,
+  description: project.tagline,
+  author: { "@type": "Person", name: site.name },
+  url: new URL(withBase(path), site.url).href,
+};
+
+/** External links open in a new tab; mailto links do not need it. */
+const isExternal = (href: string) => href.startsWith("http");
+---
+
+<Base title={title} description={project.tagline} path={path} structuredData={projectLd}>
+  <article>
+    <header class="case-hero">
+      <div class="container container--narrow">
+        <nav aria-label="Breadcrumb" class="case-hero__crumbs">
+          <a href={withBase("/#work")}>← All projects</a>
+        </nav>
+        <div class="case-hero__chips">
+          <span class={`chip ${project.status === "Published" ? "chip--accent" : "chip--green"}`}>
+            {project.status}
+          </span>
+          <span class="chip">{project.timeframe}</span>
+        </div>
+        <h1>{project.title}</h1>
+        <p class="case-hero__tagline">{project.tagline}</p>
+
+        {
+          project.notice && (
+            <p class="case-hero__notice" role="note">
+              {project.notice}
+            </p>
+          )
+        }
+
+        <div class="case-hero__actions">
+          {
+            project.links.map((link) =>
+              isExternal(link.href) ? (
+                <a
+                  class={`btn ${link.primary ? "btn--primary" : "btn--ghost"}`}
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                  <span class="visually-hidden"> (opens in a new tab)</span>
+                </a>
+              ) : (
+                <a
+                  class={`btn ${link.primary ? "btn--primary" : "btn--ghost"}`}
+                  href={link.href}
+                >
+                  {link.label}
+                </a>
+              ),
+            )
+          }
+          {
+            project.videoUrl && (
+              <a
+                class="btn btn--ghost"
+                href={project.videoUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Watch demo
+                <span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            )
+            /* "Watch demo" appears automatically once videoUrl is set in projects.ts */
+          }
+        </div>
+      </div>
+    </header>
+
+    <div class="container container--narrow case-cover">
+      <img
+        src={withBase(project.cover.src)}
+        alt={project.cover.alt}
+        width={project.cover.width}
+        height={project.cover.height}
+        loading="eager"
+        decoding="async"
+        class="card"
+      />
+    </div>
+
+    <div class="container container--narrow prose case-body">
+      <section aria-labelledby="h-context">
+        <h2 id="h-context">Context</h2>
+        <p>{project.context}</p>
+      </section>
+
+      <section aria-labelledby="h-problem">
+        <h2 id="h-problem">Problem</h2>
+        <p>{project.problem}</p>
+      </section>
+
+      <section aria-labelledby="h-role">
+        <h2 id="h-role">Role & authorship</h2>
+        <p><strong>{project.authorship}</strong></p>
+        <p>{project.role}</p>
+      </section>
+
+      <section aria-labelledby="h-process">
+        <h2 id="h-process">Process</h2>
+        <ul>
+          {project.process.map((step) => <li>{step}</li>)}
+        </ul>
+      </section>
+
+      <section aria-labelledby="h-decisions">
+        <h2 id="h-decisions">Key decisions</h2>
+        <div class="decision-grid">
+          {
+            project.decisions.map((d) => (
+              <div class="card decision-card">
+                <h3>{d.title}</h3>
+                <p>{d.body}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section aria-labelledby="h-results">
+        <h2 id="h-results">Results</h2>
+        <ul>
+          {project.results.map((r) => <li>{r}</li>)}
+        </ul>
+      </section>
+
+      <section aria-labelledby="h-stack">
+        <h2 id="h-stack">Stack</h2>
+        <ul class="stack-list" aria-label="Technologies used">
+          {project.stack.map((tool) => <li class="chip">{tool}</li>)}
+        </ul>
+      </section>
+
+      <section aria-labelledby="h-limitations">
+        <h2 id="h-limitations">Limitations & scope</h2>
+        <ul>
+          {project.limitations.map((l) => <li>{l}</li>)}
+        </ul>
+      </section>
+
+      <nav class="case-footer-nav" aria-label="Project navigation">
+        <a class="btn btn--ghost" href={withBase("/#work")}>← Back to all projects</a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .case-hero {
+    padding-block: var(--space-6) var(--space-4);
+    background: radial-gradient(
+      50rem 26rem at 90% -20%,
+      var(--accent-soft),
+      transparent 60%
+    );
+  }
+
+  .case-hero__crumbs {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .case-hero__chips {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .case-hero h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .case-hero__tagline {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+  }
+
+  .case-hero__notice {
+    display: inline-block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-2);
+    background: var(--accent-2-soft);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+
+  .case-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .case-cover {
+    margin-top: var(--space-4);
+  }
+
+  .case-body {
+    padding-block: var(--space-5) var(--space-6);
+  }
+
+  .case-body section {
+    margin-bottom: var(--space-5);
+  }
+
+  .case-body h2 {
+    font-size: var(--text-xl);
+  }
+
+  .decision-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .decision-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .decision-card {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .decision-card h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .decision-card p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .stack-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+  }
+
+  .case-footer-nav {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+  }
+</style>

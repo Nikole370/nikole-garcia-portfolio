@@ -1,0 +1,188 @@
+---
+import { site, mailto, withBase } from "../config/site";
+
+const nav = [
+  { label: "Work", href: withBase("/#work") },
+  { label: "About", href: withBase("/#about") },
+  { label: "Capabilities", href: withBase("/#capabilities") },
+];
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={withBase("/")}>
+      <span class="site-header__mark" aria-hidden="true"></span>
+      {site.shortName}
+    </a>
+
+    <nav aria-label="Main navigation" class="site-nav">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="site-header__actions">
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        type="button"
+        aria-label="Switch to dark theme"
+        aria-pressed="false"
+      >
+        <svg
+          class="theme-toggle__icon theme-toggle__icon--sun"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"></path>
+        </svg>
+        <svg
+          class="theme-toggle__icon theme-toggle__icon--moon"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+        </svg>
+      </button>
+      <a class="btn btn--primary site-header__cta" href={mailto}>Contact</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("theme-toggle");
+  const setLabel = () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    btn?.setAttribute("aria-pressed", String(dark));
+    btn?.setAttribute(
+      "aria-label",
+      dark ? "Switch to light theme" : "Switch to dark theme",
+    );
+  };
+  setLabel();
+  btn?.addEventListener("click", () => {
+    const next =
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "light"
+        : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      /* private mode — theme just won't persist */
+    }
+    setLabel();
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 3.75rem;
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    letter-spacing: -0.01em;
+  }
+
+  .site-header__mark {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 2px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    transform: rotate(45deg);
+  }
+
+  .site-nav {
+    display: flex;
+    gap: clamp(0.75rem, 2.5vw, 1.75rem);
+    margin-left: auto;
+  }
+
+  .site-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    padding: 0.35em 0;
+  }
+
+  .site-nav a:hover {
+    color: var(--accent);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .theme-toggle__icon--sun {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .theme-toggle__icon--moon {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .site-header__cta {
+      display: none;
+    }
+    .site-nav {
+      gap: 0.9rem;
+    }
+  }
+</style>

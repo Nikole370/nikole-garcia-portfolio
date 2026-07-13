@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nikole370.github.io/nikole-garcia-portfolio/sitemap-index.xml

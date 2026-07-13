@@ -1,0 +1,67 @@
+---
+import { site, mailto } from "../config/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" id="contact">
+  <div class="container site-footer__inner">
+    <div class="site-footer__pitch">
+      <h2>Let's talk data</h2>
+      <p>
+        Open to junior opportunities in Data Analytics, BI and Data
+        Engineering — based in {site.location}, available remotely.
+      </p>
+      <a class="btn btn--primary" href={mailto}>{site.links.email}</a>
+    </div>
+
+    <nav aria-label="Social links" class="site-footer__links">
+      <a href={site.links.github} rel="noopener noreferrer" target="_blank">
+        GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
+      <a href={site.links.linkedin} rel="noopener noreferrer" target="_blank">
+        LinkedIn<span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
+      <a href={site.links.tableau} rel="noopener noreferrer" target="_blank">
+        Tableau Public<span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
+    </nav>
+
+    <p class="site-footer__meta">
+      © {year} {site.name}. Built with Astro — no trackers, no cookies.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-6);
+    padding-block: var(--space-6) var(--space-5);
+    background: var(--bg-raised);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .site-footer__pitch p {
+    color: var(--text-muted);
+    max-width: 38rem;
+  }
+
+  .site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .site-footer__meta {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    margin: 0;
+  }
+</style>

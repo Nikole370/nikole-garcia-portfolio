@@ -1,0 +1,273 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects";
+import { capabilities } from "../data/capabilities";
+import { about } from "../data/about";
+import { site, mailto, withBase } from "../config/site";
+
+const title = `${site.name} — Data Analytics, BI & Data Engineering`;
+
+const itemListLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Featured work",
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: new URL(withBase(`/projects/${p.slug}/`), site.url).href,
+    name: p.title,
+  })),
+};
+---
+
+<Base title={title} path="/" structuredData={itemListLd}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">
+        {site.role} · {site.location}
+      </p>
+      <h1>
+        Nikole García Chávez turns raw data into
+        <span class="hero__accent">defensible analysis</span>.
+      </h1>
+      <p class="hero__lead">
+        I build documented data pipelines, dimensional models and executive
+        dashboards — focused on BI, data analytics and junior data
+        engineering. Every project here states its method, its results and
+        its limitations.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#work">View projects</a>
+        <a
+          class="btn btn--ghost"
+          href={site.links.github}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+        </a>
+        <a
+          class="btn btn--ghost"
+          href={site.links.linkedin}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          LinkedIn<span class="visually-hidden"> (opens in a new tab)</span>
+        </a>
+        {
+          site.cv.available ? (
+            <a
+              class="btn btn--ghost"
+              href={withBase(site.cv.path)}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Download CV
+              <span class="visually-hidden"> (PDF, opens in a new tab)</span>
+            </a>
+          ) : null
+          /* CV button hidden until the PDF exists — see site.ts (cv.available) */
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured work -->
+  <section class="section" id="work" aria-labelledby="work-heading">
+    <div class="container">
+      <p class="section__kicker">Featured work</p>
+      <h2 id="work-heading">Three case studies, method included</h2>
+      <p class="section__intro">
+        Real datasets, documented decisions, honest limitations. Interactive
+        dashboards open on Tableau Public in a new tab.
+      </p>
+      <div class="work-grid">
+        {projects.map((p, i) => <ProjectCard project={p} eager={i === 0} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section section--alt" id="about" aria-labelledby="about-heading">
+    <div class="container container--narrow">
+      <p class="section__kicker">{about.heading}</p>
+      <h2 id="about-heading">Profile & focus</h2>
+      {about.paragraphs.map((p) => <p class="about__p">{p}</p>)}
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="section" id="capabilities" aria-labelledby="capabilities-heading">
+    <div class="container">
+      <p class="section__kicker">Capabilities</p>
+      <h2 id="capabilities-heading">What I actually use, grouped by use</h2>
+      <div class="cap-grid">
+        {
+          capabilities.map((group) => (
+            <article class="card cap-card">
+              <h3>{group.title}</h3>
+              <p class="cap-card__summary">{group.summary}</p>
+              <ul>
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+              <p class="cap-card__evidence">{group.evidence}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact strip (footer holds full contact block) -->
+  <section class="section contact-strip" aria-labelledby="contact-heading">
+    <div class="container">
+      <h2 id="contact-heading" class="visually-hidden">Contact</h2>
+      <div class="contact-strip__inner card">
+        <p>
+          Looking for a junior data analyst, BI developer or data engineer who
+          documents their work?
+        </p>
+        <a class="btn btn--primary" href={mailto}>Get in touch</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-7) var(--space-6);
+    background:
+      radial-gradient(
+        60rem 30rem at 85% -10%,
+        var(--accent-soft),
+        transparent 60%
+      ),
+      radial-gradient(
+        40rem 24rem at -10% 110%,
+        var(--accent-2-soft),
+        transparent 60%
+      );
+  }
+
+  .hero__eyebrow {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+  }
+
+  .hero h1 {
+    max-width: 22ch;
+  }
+
+  .hero__accent {
+    color: var(--accent);
+  }
+
+  .hero__lead {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 46rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .section__intro {
+    color: var(--text-muted);
+    max-width: 42rem;
+    margin-bottom: var(--space-5);
+  }
+
+  .work-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .section--alt {
+    background: var(--bg-raised);
+    border-block: 1px solid var(--border);
+  }
+
+  .about__p {
+    font-size: var(--text-base);
+  }
+
+  .about__p:first-of-type {
+    font-size: var(--text-lg);
+  }
+
+  .cap-grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 780px) {
+    .cap-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .cap-card {
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cap-card h3 {
+    font-size: var(--text-lg);
+  }
+
+  .cap-card__summary {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .cap-card ul {
+    padding-left: 1.1rem;
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .cap-card li {
+    margin-bottom: var(--space-1);
+  }
+
+  .cap-card li::marker {
+    color: var(--accent);
+  }
+
+  .cap-card__evidence {
+    margin-top: auto;
+    margin-bottom: 0;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-2);
+  }
+
+  .contact-strip__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4) clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .contact-strip__inner p {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    max-width: 34rem;
+  }
+</style>

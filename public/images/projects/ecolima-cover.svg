@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Stylized map of Lima with a spatial grid shaded by recycling suitability score">
+  <!-- Placeholder cover (mockup based on the concept, not a real screenshot).
+       Replace with a sanitized screenshot when approved (see CONTENT_REVIEW.md) -->
+  <rect width="1200" height="675" fill="#16211b"/>
+  <text x="64" y="86" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#a3cc5e" letter-spacing="4">ECOLIMA · WORK IN PROGRESS</text>
+  <text x="64" y="130" font-family="ui-sans-serif,system-ui,sans-serif" font-size="34" font-weight="700" fill="#e8eaed">Recycling point suitability · 500 m grid</text>
+
+  <!-- coastline -->
+  <path d="M 210 640 C 300 520 320 430 430 340 C 520 270 560 220 640 170 L 640 675 L 210 675 Z" fill="#10312f" opacity="0.6"/>
+
+  <!-- suitability grid -->
+  <g>
+    <rect x="500" y="200" width="58" height="58" fill="#24422a"/>
+    <rect x="564" y="200" width="58" height="58" fill="#39603a"/>
+    <rect x="628" y="200" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="692" y="200" width="58" height="58" fill="#39603a"/>
+    <rect x="756" y="200" width="58" height="58" fill="#24422a"/>
+    <rect x="820" y="200" width="58" height="58" fill="#1d3522"/>
+
+    <rect x="500" y="264" width="58" height="58" fill="#39603a"/>
+    <rect x="564" y="264" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="628" y="264" width="58" height="58" fill="#7fb069"/>
+    <rect x="692" y="264" width="58" height="58" fill="#a3cc5e"/>
+    <rect x="756" y="264" width="58" height="58" fill="#39603a"/>
+    <rect x="820" y="264" width="58" height="58" fill="#24422a"/>
+
+    <rect x="436" y="328" width="58" height="58" fill="#24422a"/>
+    <rect x="500" y="328" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="564" y="328" width="58" height="58" fill="#a3cc5e"/>
+    <rect x="628" y="328" width="58" height="58" fill="#c9e58a"/>
+    <rect x="692" y="328" width="58" height="58" fill="#7fb069"/>
+    <rect x="756" y="328" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="820" y="328" width="58" height="58" fill="#24422a"/>
+
+    <rect x="436" y="392" width="58" height="58" fill="#1d3522"/>
+    <rect x="500" y="392" width="58" height="58" fill="#39603a"/>
+    <rect x="564" y="392" width="58" height="58" fill="#7fb069"/>
+    <rect x="628" y="392" width="58" height="58" fill="#a3cc5e"/>
+    <rect x="692" y="392" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="756" y="392" width="58" height="58" fill="#39603a"/>
+
+    <rect x="500" y="456" width="58" height="58" fill="#24422a"/>
+    <rect x="564" y="456" width="58" height="58" fill="#39603a"/>
+    <rect x="628" y="456" width="58" height="58" fill="#4d7c0f"/>
+    <rect x="692" y="456" width="58" height="58" fill="#39603a"/>
+  </g>
+
+  <!-- recommended points -->
+  <g fill="#4cc4ce" stroke="#16211b" stroke-width="4">
+    <circle cx="657" cy="357" r="13"/>
+    <circle cx="721" cy="293" r="13"/>
+    <circle cx="593" cy="421" r="13"/>
+  </g>
+
+  <!-- legend -->
+  <g font-family="ui-sans-serif,system-ui,sans-serif" font-size="18">
+    <text x="920" y="360" fill="#8b98a5">Suitability</text>
+    <rect x="920" y="376" width="34" height="20" fill="#1d3522"/>
+    <rect x="958" y="376" width="34" height="20" fill="#39603a"/>
+    <rect x="996" y="376" width="34" height="20" fill="#4d7c0f"/>
+    <rect x="1034" y="376" width="34" height="20" fill="#a3cc5e"/>
+    <rect x="1072" y="376" width="34" height="20" fill="#c9e58a"/>
+    <text x="920" y="424" fill="#8b98a5">0</text>
+    <text x="1090" y="424" fill="#8b98a5">1</text>
+  </g>
+</svg>

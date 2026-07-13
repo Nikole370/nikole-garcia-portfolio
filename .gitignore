@@ -1,0 +1,15 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment (none are needed, but never commit them)
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

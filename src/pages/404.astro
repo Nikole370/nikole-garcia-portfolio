@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, withBase } from "../config/site";
+---
+
+<Base title={`Page not found — ${site.name}`} path="/404">
+  <section class="notfound">
+    <div class="container container--narrow">
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1>This page doesn't exist</h1>
+      <p class="notfound__lead">
+        The link may be outdated or mistyped. The good stuff is still here:
+      </p>
+      <div class="notfound__actions">
+        <a class="btn btn--primary" href={withBase("/")}>Go to homepage</a>
+        <a class="btn btn--ghost" href={withBase("/#work")}>View projects</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    padding-block: var(--space-7);
+    text-align: center;
+  }
+
+  .notfound__code {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .notfound__lead {
+    color: var(--text-muted);
+  }
+
+  .notfound__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+</style>
